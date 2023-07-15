@@ -91,10 +91,10 @@ macro (oiio_add_tests)
     else ()
         # Add the tests if all is well.
         set (_has_generator_expr TRUE)
-        set (_testsuite "${CMAKE_SOURCE_DIR}/testsuite")
+        set (_testsuite "${PROJECT_SOURCE_DIR}/testsuite")
         foreach (_testname ${_ats_UNPARSED_ARGUMENTS})
             set (_testsrcdir "${_testsuite}/${_testname}")
-            set (_testdir "${CMAKE_BINARY_DIR}/testsuite/${_testname}${_ats_SUFFIX}")
+            set (_testdir "${PROJECT_BINARY_DIR}/testsuite/${_testname}${_ats_SUFFIX}")
             if (_ats_TESTNAME)
                 set (_testname "${_ats_TESTNAME}")
             endif ()
@@ -105,10 +105,10 @@ macro (oiio_add_tests)
                 set (_testname "${_testname}-broken")
             endif ()
 
-            set (_runtest ${Python_EXECUTABLE} "${CMAKE_SOURCE_DIR}/testsuite/runtest.py" ${_testdir})
+            set (_runtest ${Python_EXECUTABLE} "${PROJECT_SOURCE_DIR}/testsuite/runtest.py" ${_testdir})
             if (MSVC_IDE)
                 set (_runtest ${_runtest} --devenv-config $<CONFIGURATION>
-                                          --solution-path "${CMAKE_BINARY_DIR}" )
+                                          --solution-path "${PROJECT_BINARY_DIR}" )
             endif ()
 
             file (MAKE_DIRECTORY "${_testdir}")
@@ -354,7 +354,7 @@ macro (oiio_add_all_tests)
 endmacro()
 
 
-set (OIIO_LOCAL_TESTDATA_ROOT "${CMAKE_SOURCE_DIR}/.." CACHE PATH
+set (OIIO_LOCAL_TESTDATA_ROOT "${PROJECT_SOURCE_DIR}/.." CACHE PATH
      "Directory to check for local copies of testsuite data")
 option (OIIO_DOWNLOAD_MISSING_TESTDATA "Try to download any missing test data" OFF)
 
@@ -362,13 +362,13 @@ function (oiio_get_test_data name)
     cmake_parse_arguments (_ogtd "" "REPO;BRANCH" "" ${ARGN})
        # Arguments: <prefix> <options> <one_value_keywords> <multi_value_keywords> args...
     if (IS_DIRECTORY "${OIIO_LOCAL_TESTDATA_ROOT}/${name}"
-        AND NOT EXISTS "${CMAKE_BINARY_DIR}/testsuite/${name}")
+        AND NOT EXISTS "${PROJECT_BINARY_DIR}/testsuite/${name}")
         set (_ogtd_LINK_RESULT "")
         if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.14)
             # Just make a link if we can
             message (STATUS "Linking ${name} from ${OIIO_LOCAL_TESTDATA_ROOT}/${name}")
             file (CREATE_LINK "${OIIO_LOCAL_TESTDATA_ROOT}/${name}"
-                              "${CMAKE_BINARY_DIR}/testsuite/${name}"
+                              "${PROJECT_BINARY_DIR}/testsuite/${name}"
                               SYMBOLIC RESULT _ogtd_LINK_RESULT)
             # Note: Using 'COPY_ON_ERROR' in the above command should have prevented the need to
             # have the manual fall-back below. However, there's been at least one case where a user
@@ -380,9 +380,9 @@ function (oiio_get_test_data name)
             # Older cmake or failure to link -- copy
             message (STATUS "Copying ${name} from ${OIIO_LOCAL_TESTDATA_ROOT}/${name}")
             file (COPY "${OIIO_LOCAL_TESTDATA_ROOT}/${name}"
-                  DESTINATION "${CMAKE_BINARY_DIR}/testsuite")
+                  DESTINATION "${PROJECT_BINARY_DIR}/testsuite")
         endif ()
-    elseif (IS_DIRECTORY "${CMAKE_BINARY_DIR}/testsuite/${name}")
+    elseif (IS_DIRECTORY "${PROJECT_BINARY_DIR}/testsuite/${name}")
         message (STATUS "Test data for ${name} already present in testsuite")
     elseif (OIIO_DOWNLOAD_MISSING_TESTDATA AND _ogtd_REPO)
         # Test data directory didn't exist -- fetch it
@@ -394,7 +394,7 @@ function (oiio_get_test_data name)
         if (Git_FOUND AND GIT_EXECUTABLE)
             execute_process(COMMAND ${GIT_EXECUTABLE} clone --depth 1
                                     ${_ogtd_REPO} -b ${_ogtd_BRANCH}
-                                    ${CMAKE_BINARY_DIR}/testsuite/${name})
+                                    ${PROJECT_BINARY_DIR}/testsuite/${name})
         else ()
             message (WARNING "${ColorRed}Could not find Git executable, could not download test data from ${_ogtd_REPO}${ColorReset}")
         endif ()

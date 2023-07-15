@@ -6,7 +6,7 @@
 #include <iomanip>
 #include <memory>
 
-#include <OpenEXR/ImfTimeCode.h>  //For TimeCode support
+#include <ImfTimeCode.h>  //For TimeCode support
 
 // Note: libdpx originally from: https://github.com/PatrickPalmer/dpx
 // But that seems not to be actively maintained.

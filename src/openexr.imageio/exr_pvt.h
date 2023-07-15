@@ -10,7 +10,7 @@
 #include <OpenImageIO/string_view.h>
 #include <OpenImageIO/typedesc.h>
 
-#include <OpenEXR/ImfChannelList.h>
+#include <ImfChannelList.h>
 
 #ifdef OPENEXR_VERSION_MAJOR
 #    define OPENEXR_CODED_VERSION                                    \

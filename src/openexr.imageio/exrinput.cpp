@@ -16,11 +16,11 @@
 
 #include <boost/version.hpp>
 
-#include <OpenEXR/ImfChannelList.h>
-#include <OpenEXR/ImfEnvmap.h>
-#include <OpenEXR/ImfInputFile.h>
-#include <OpenEXR/ImfTestFile.h>
-#include <OpenEXR/ImfTiledInputFile.h>
+#include <ImfChannelList.h>
+#include <ImfEnvmap.h>
+#include <ImfInputFile.h>
+#include <ImfTestFile.h>
+#include <ImfTiledInputFile.h>
 
 #include "exr_pvt.h"
 
@@ -29,37 +29,37 @@
 OIIO_PRAGMA_VISIBILITY_PUSH
 OIIO_PRAGMA_WARNING_PUSH
 OIIO_GCC_PRAGMA(GCC diagnostic ignored "-Wunused-parameter")
-#include <OpenEXR/IexBaseExc.h>
-#include <OpenEXR/IexThrowErrnoExc.h>
-#include <OpenEXR/ImfBoxAttribute.h>
-#include <OpenEXR/ImfChromaticitiesAttribute.h>
-#include <OpenEXR/ImfCompressionAttribute.h>
-#include <OpenEXR/ImfDeepFrameBuffer.h>
-#include <OpenEXR/ImfDeepScanLineInputPart.h>
-#include <OpenEXR/ImfDeepTiledInputPart.h>
-#include <OpenEXR/ImfDoubleAttribute.h>
-#include <OpenEXR/ImfEnvmapAttribute.h>
-#include <OpenEXR/ImfFloatAttribute.h>
-#include <OpenEXR/ImfHeader.h>
+#include <IexBaseExc.h>
+#include <IexThrowErrnoExc.h>
+#include <ImfBoxAttribute.h>
+#include <ImfChromaticitiesAttribute.h>
+#include <ImfCompressionAttribute.h>
+#include <ImfDeepFrameBuffer.h>
+#include <ImfDeepScanLineInputPart.h>
+#include <ImfDeepTiledInputPart.h>
+#include <ImfDoubleAttribute.h>
+#include <ImfEnvmapAttribute.h>
+#include <ImfFloatAttribute.h>
+#include <ImfHeader.h>
 #if OPENEXR_HAS_FLOATVECTOR
-#    include <OpenEXR/ImfFloatVectorAttribute.h>
+#    include <ImfFloatVectorAttribute.h>
 #endif
-#include <OpenEXR/ImfInputPart.h>
-#include <OpenEXR/ImfIntAttribute.h>
-#include <OpenEXR/ImfKeyCodeAttribute.h>
-#include <OpenEXR/ImfMatrixAttribute.h>
-#include <OpenEXR/ImfMultiPartInputFile.h>
-#include <OpenEXR/ImfPartType.h>
-#include <OpenEXR/ImfRationalAttribute.h>
-#include <OpenEXR/ImfStringAttribute.h>
-#include <OpenEXR/ImfStringVectorAttribute.h>
-#include <OpenEXR/ImfTiledInputPart.h>
-#include <OpenEXR/ImfTimeCodeAttribute.h>
-#include <OpenEXR/ImfVecAttribute.h>
+#include <ImfInputPart.h>
+#include <ImfIntAttribute.h>
+#include <ImfKeyCodeAttribute.h>
+#include <ImfMatrixAttribute.h>
+#include <ImfMultiPartInputFile.h>
+#include <ImfPartType.h>
+#include <ImfRationalAttribute.h>
+#include <ImfStringAttribute.h>
+#include <ImfStringVectorAttribute.h>
+#include <ImfTiledInputPart.h>
+#include <ImfTimeCodeAttribute.h>
+#include <ImfVecAttribute.h>
 OIIO_PRAGMA_WARNING_POP
 OIIO_PRAGMA_VISIBILITY_POP
 
-#include <OpenEXR/ImfCRgbaFile.h>
+#include <ImfCRgbaFile.h>
 
 #if OPENEXR_CODED_VERSION >= 30100 && defined(OIIO_USE_EXR_C_API)
 #    define USE_OPENEXR_CORE

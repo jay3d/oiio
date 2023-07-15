@@ -21,7 +21,7 @@ if (USE_GENERATED_EXPORT_HEADER)
           CUSTOM_CONTENT_FROM_VARIABLE exportextras
           )
     list (REMOVE_ITEM public_headers ${PROJECT_NAME}/export.h)
-    list (APPEND public_headers "${CMAKE_BINARY_DIR}/src/include/export.h")
+    list (APPEND public_headers "${PROJECT_BINARY_DIR}/src/include/export.h")
 endif()
 
 
@@ -36,23 +36,23 @@ set (versionfile oiioversion.h)
 if (VERBOSE)
     message(STATUS "Create ${versionfile} from ${versionfile}.in")
 endif ()
-configure_file (${PROJECT_NAME}/${versionfile}.in "${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/${versionfile}" @ONLY)
-list (APPEND public_headers "${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/${versionfile}")
+configure_file (${PROJECT_NAME}/${versionfile}.in "${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}/${versionfile}" @ONLY)
+list (APPEND public_headers "${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}/${versionfile}")
 
 # Generate half.h
 if (VERBOSE)
     message(STATUS "Create half.h from half.h.in")
 endif ()
-configure_file (${PROJECT_NAME}/half.h.in "${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/half.h" @ONLY)
-list (APPEND public_headers "${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/half.h")
+configure_file (${PROJECT_NAME}/half.h.in "${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}/half.h" @ONLY)
+list (APPEND public_headers "${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}/half.h")
 
 
 # Generate Imath.h
 if (VERBOSE)
     message(STATUS "Create Imath.h from Imath.h.in")
 endif ()
-configure_file (${PROJECT_NAME}/Imath.h.in "${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/Imath.h" @ONLY)
-list (APPEND public_headers "${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/Imath.h")
+configure_file (${PROJECT_NAME}/Imath.h.in "${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}/Imath.h" @ONLY)
+list (APPEND public_headers "${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}/Imath.h")
 
 
 install (FILES ${public_headers}
@@ -75,19 +75,19 @@ if (INTERNALIZE_FMT OR OIIO_USING_FMT_LOCAL)
         list (APPEND fmt_headers ${FMT_INCLUDES}/fmt/std.h)
     endif ()
     file (COPY ${fmt_headers}
-          DESTINATION ${CMAKE_BINARY_DIR}/include/OpenImageIO/detail/fmt)
+          DESTINATION ${PROJECT_BINARY_DIR}/include/OpenImageIO/detail/fmt)
 else ()
     set (fmt_headers
-         ${CMAKE_BINARY_DIR}/include/OpenImageIO/detail/fmt/format.h
-         ${CMAKE_BINARY_DIR}/include/OpenImageIO/detail/fmt/ostream.h
-         ${CMAKE_BINARY_DIR}/include/OpenImageIO/detail/fmt/printf.h )
+         ${PROJECT_BINARY_DIR}/include/OpenImageIO/detail/fmt/format.h
+         ${PROJECT_BINARY_DIR}/include/OpenImageIO/detail/fmt/ostream.h
+         ${PROJECT_BINARY_DIR}/include/OpenImageIO/detail/fmt/printf.h )
     foreach (f format.h ostream.h printf.h)
-        file (WRITE "${CMAKE_BINARY_DIR}/include/OpenImageIO/detail/fmt/${f}"
+        file (WRITE "${PROJECT_BINARY_DIR}/include/OpenImageIO/detail/fmt/${f}"
                     "#include <fmt/${f}>")
     endforeach ()
     if (fmt_VERSION VERSION_GREATER_EQUAL 90000)
-        list (APPEND fmt_headers ${CMAKE_BINARY_DIR}/include/OpenImageIO/detail/fmt/std.h)
-        file (WRITE "${CMAKE_BINARY_DIR}/include/OpenImageIO/detail/fmt/std.h"
+        list (APPEND fmt_headers ${PROJECT_BINARY_DIR}/include/OpenImageIO/detail/fmt/std.h)
+        file (WRITE "${PROJECT_BINARY_DIR}/include/OpenImageIO/detail/fmt/std.h"
                     "#include <fmt/std.h>")
     endif ()
 endif ()
@@ -101,7 +101,7 @@ if (NOT USE_EXTERNAL_PUGIXML)
           OpenImageIO/detail/pugixml/pugiconfig.hpp
           OpenImageIO/detail/pugixml/pugixml.cpp)
     file (COPY ${pugixml_headers}
-          DESTINATION ${CMAKE_BINARY_DIR}/include/OpenImageIO/detail/pugixml)
+          DESTINATION ${PROJECT_BINARY_DIR}/include/OpenImageIO/detail/pugixml)
     install (FILES ${pugixml_headers}
              DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/detail/pugixml
              COMPONENT developer)

@@ -45,8 +45,8 @@ endif ()
 #   cd <build area>
 #   conan install <source area>
 # and that will leave a conanbuildinfo.cmake in the build area for us.
-if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    include (${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+if (EXISTS ${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
+    include (${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
     message (STATUS "Using Conan for dependencies")
     conan_basic_setup()
 endif()
@@ -69,18 +69,18 @@ message (STATUS "CMake ${CMAKE_VERSION}")
 message (STATUS "CMake system           = ${CMAKE_SYSTEM}")
 message (STATUS "CMake system name      = ${CMAKE_SYSTEM_NAME}")
 message (STATUS "Project source dir     = ${PROJECT_SOURCE_DIR}")
-message (STATUS "Project build dir      = ${CMAKE_BINARY_DIR}")
+message (STATUS "Project build dir      = ${PROJECT_BINARY_DIR}")
 message (STATUS "Project install prefix = ${CMAKE_INSTALL_PREFIX}")
 message (STATUS "Configuration types    = ${CMAKE_CONFIGURATION_TYPES}")
 message (STATUS "Build type             = ${CMAKE_BUILD_TYPE}")
 message (STATUS "Supported release      = ${${PROJECT_NAME}_SUPPORTED_RELEASE}")
 
 # Make the build area layout look a bit more like the final dist layout
-set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
-if ("${PROJECT_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
+if ("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
     message (FATAL_ERROR "Not allowed to run in-source build!")
 endif ()
 
@@ -178,10 +178,10 @@ endif ()
 
 include_directories (
     BEFORE
-    "${CMAKE_SOURCE_DIR}/src/include"
-    "${CMAKE_BINARY_DIR}/src/include"
-    "${CMAKE_BINARY_DIR}/include"
-    "${CMAKE_BINARY_DIR}/include/OpenImageIO"
+    "${PROJECT_SOURCE_DIR}/src/include"
+    "${PROJECT_BINARY_DIR}/src/include"
+    "${PROJECT_BINARY_DIR}/include"
+    "${PROJECT_BINARY_DIR}/include/OpenImageIO"
   )
 
 # Tell CMake to process the sub-directories
@@ -259,8 +259,8 @@ endif ()
 
 # install pkgconfig file
 if (NOT MSVC)
-   configure_file(src/build-scripts/OpenImageIO.pc.in "${CMAKE_BINARY_DIR}/OpenImageIO.pc" @ONLY)
-   install (FILES "${CMAKE_BINARY_DIR}/OpenImageIO.pc"
+   configure_file(src/build-scripts/OpenImageIO.pc.in "${PROJECT_BINARY_DIR}/OpenImageIO.pc" @ONLY)
+   install (FILES "${PROJECT_BINARY_DIR}/OpenImageIO.pc"
             DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
             COMPONENT developer)
 endif()
@@ -272,9 +272,9 @@ include (CMakePackageConfigHelpers)
 # the file containing the exported targets
 set (OIIO_TARGETS_EXPORT_NAME "${PROJECT_NAME}Targets.cmake")
 # the version file
-set (OIIO_VERSION_CONFIG "${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
+set (OIIO_VERSION_CONFIG "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
 # the config file that is actually looked for by find_package
-set (OIIO_PROJECT_CONFIG "${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake")
+set (OIIO_PROJECT_CONFIG "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake")
 # where all these files will be installed
 set (OIIO_CONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 
@@ -287,7 +287,7 @@ write_basic_package_version_file (
 # generate the Targets file in the binary dir using the targets collected in
 # OIIO_EXPORTED_TARGETS each target is added to OIIO_EXPORTED_TARGETS
 # through the macro install_target().
-export (EXPORT OIIO_EXPORTED_TARGETS FILE "${CMAKE_BINARY_DIR}/${OIIO_TARGETS_EXPORT_NAME}")
+export (EXPORT OIIO_EXPORTED_TARGETS FILE "${PROJECT_BINARY_DIR}/${OIIO_TARGETS_EXPORT_NAME}")
 
 # generate the config file from the template in the binary dir
 configure_package_config_file ("${PROJECT_SOURCE_DIR}/src/cmake/Config.cmake.in"
